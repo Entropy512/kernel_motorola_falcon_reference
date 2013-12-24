@@ -1,4 +1,4 @@
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2013, Motorola Mobility LLC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -11,18 +11,36 @@
  */
 
 /dts-v1/;
+
+/include/ "msm8226-moto-reserve.dtsi"
 /include/ "msm8226-v1.dtsi"
-/include/ "msm8226-qrd.dtsi"
+/include/ "msm8226-falcon-common.dtsi"
 
 / {
-	model = "Qualcomm MSM 8226 QRD";
-	compatible = "qcom,msm8226-qrd", "qcom,msm8226", "qcom,qrd";
-	qcom,board-id = <11 0>;
+	qcom,msm-id = <145 0x42 0x8200>;
 };
 
 &soc {
-        qcom,mdss_dsi_nt35590_720p_video {
-                status = "ok";
-		qcom,cont-splash-enabled;
-        };
+	gpio_keys {
+		lid-sw {
+			label = "lid-switch";
+			gpios = <&msmgpio 51 0x1>;
+			linux,input-type = <5>;
+			linux,code = <0>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+		};
+	};
+};
+
+&mmi_batterydata {
+	mmi,ed30-temp-batterydata {
+		qcom,batt-id-range = <0 1800000>;
+	};
+};
+
+&i2c_2 {
+	ct406@39 {
+		ams,ink_type = <0x01>;
+	};
 };
